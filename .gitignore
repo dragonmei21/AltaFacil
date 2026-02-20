@@ -1,0 +1,8 @@
+.env
+credentials.json
+data/ledger.csv
+data/user_profile.json
+__pycache__
+.venv
+*.pyc
+.DS_Store

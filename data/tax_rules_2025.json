@@ -1,0 +1,64 @@
+{
+  "version": "2025-07-31",
+  "source": "AEAT Tipos impositivos en el IVA 2025 — Ley 37/1992",
+  "iva_rates": {
+    "21": {
+      "label": "Tipo general",
+      "article": "Art. 90.Uno Ley 37/1992",
+      "keywords": ["software", "saas", "hosting", "marketing", "publicidad",
+                   "consultoría", "consulting", "telecom", "telefonia", "internet",
+                   "coworking", "diseño", "electricidad", "luz", "gas",
+                   "seguros", "peluquería", "gimnasio", "restaurante_alcohol"]
+    },
+    "10": {
+      "label": "Tipo reducido",
+      "article": "Art. 91.Uno Ley 37/1992",
+      "keywords": ["transporte", "hostelería", "hotel", "restaurante", "catering",
+                   "obra", "reforma", "vivienda", "cine", "teatro", "museo",
+                   "agua", "medicamento_veterinario"]
+    },
+    "4": {
+      "label": "Tipo superreducido",
+      "article": "Art. 91.Dos Ley 37/1992",
+      "keywords": ["pan", "harina", "leche", "queso", "huevos", "fruta",
+                   "verdura", "legumbre", "cereal", "aceite oliva", "aceite de oliva",
+                   "medicamento", "medicamentos", "libro", "libros",
+                   "periodico", "revista", "preservativo", "tampón", "compresa"]
+    },
+    "0": {
+      "label": "Exento",
+      "article": "Art. 20 Ley 37/1992",
+      "keywords": ["educación", "formación reglada", "médico", "médica",
+                   "psicólogo", "fisioterapeuta", "alquiler vivienda",
+                   "seguro medico", "seguro médico"]
+    }
+  },
+  "deductibility_rules": {
+    "full_100": {
+      "article": "Art. 28-30 Ley 35/2006 IRPF",
+      "keywords": ["software", "saas", "hosting", "dominio", "marketing",
+                   "publicidad", "formación", "curso", "asesoría", "gestoría",
+                   "contabilidad", "notaría", "registro", "coworking",
+                   "material oficina", "papelería", "suscripción profesional"]
+    },
+    "partial_50": {
+      "article": "Art. 95.Tres Ley 37/1992 LIVA",
+      "keywords": ["vehículo", "coche", "moto", "gasolina", "combustible",
+                   "parking", "mantenimiento vehículo", "seguro coche"],
+      "pct": 50
+    },
+    "partial_home": {
+      "article": "Art. 30 Ley 35/2006 IRPF",
+      "keywords": ["electricidad", "luz", "agua", "gas", "internet", "fibra",
+                   "alquiler", "hipoteca", "comunidad"],
+      "pct": 30,
+      "condition": "work_location == 'casa' or work_location == 'mixto'"
+    },
+    "zero_0": {
+      "article": "Art. 28 Ley 35/2006 IRPF — no deducible",
+      "keywords": ["ropa", "moda", "supermercado", "alimentación personal",
+                   "ocio", "viaje vacaciones", "regalo personal"],
+      "pct": 0
+    }
+  }
+}
