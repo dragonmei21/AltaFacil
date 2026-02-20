@@ -119,6 +119,7 @@
     "no_calendly": "Conecta Calendly en el sidebar para ver tus citas automáticamente.",
     "no_calendly_hint": "Sin Calendly, puedes añadir ingresos manualmente desde el escáner.",
     "btn_generate_invoice": "Generar factura",
+    "event_line": "**{event}** {client} — {date}",
     "metric_total_invoiced": "Total facturado",
     "metric_pending": "Pendiente de cobro",
     "aging_title": "Facturas pendientes de cobro"

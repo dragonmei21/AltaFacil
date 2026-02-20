@@ -13,7 +13,7 @@
 ## Phase 0 — Project Scaffolding (Do First)
 
 ### Task 0.1 — Create directory structure and config files
-- [ ] **Status:** Not started
+- [ ] **Status:** Doneee
 
 **What to build:**
 - All directories: `pages/`, `engine/`, `i18n/`, `data/`, `.streamlit/`
@@ -41,8 +41,7 @@ cat .streamlit/config.toml    # Should show primaryColor = "#E94560"
 ---
 
 ### Task 0.2 — Create `data/tax_rules_2025.json`
-- [ ] **Status:** Not started
-
+- [ ] **Status:** doneee
 **What to build:** The static tax rules file from CLAUDE.md Section 3.3.
 
 **Claude Code Prompt:**
@@ -60,7 +59,7 @@ python3 -c "import json; d=json.load(open('data/tax_rules_2025.json')); print(li
 ---
 
 ### Task 0.3 — Create `i18n/es.json` and `i18n/en.json`
-- [ ] **Status:** Not started
+- [ ] **Status:** doneee
 
 **What to build:** Both JSON string files from CLAUDE.md Section 12.7 (es.json) and Section 12.8 (en.json). Include the `tax_verdicts` section from Section 12.6.
 

@@ -119,6 +119,7 @@
     "no_calendly": "Connect Calendly in the sidebar to see your appointments automatically.",
     "no_calendly_hint": "Without Calendly, you can add revenue manually from the scanner.",
     "btn_generate_invoice": "Generate invoice",
+    "event_line": "**{event}** {client} — {date}",
     "metric_total_invoiced": "Total invoiced",
     "metric_pending": "Outstanding receivables",
     "aging_title": "Unpaid invoices"

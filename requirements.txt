@@ -1,23 +1,26 @@
-# Frontend
+# ── Frontend ──────────────────────────────────────────────────────────────────
 streamlit>=1.35.0
 plotly>=5.18.0
 pandas>=2.0.0
 python-dotenv>=1.0.0
 
-# AI & Document Intelligence
+# ── AI & Document Intelligence ────────────────────────────────────────────────
 anthropic>=0.25.0
 pillow>=10.0.0
-pytesseract>=0.3.10
+pytesseract>=0.3.10        # also requires: brew install tesseract tesseract-lang
 opencv-python>=4.9.0.80
 pdfplumber>=0.10.0
-pdf2image>=1.16.3
+pdf2image>=1.16.3          # also requires: brew install poppler
 
-# External Integrations
-simplegmail>=4.2.0
+# ── External Integrations ─────────────────────────────────────────────────────
+# simplegmail is not available on PyPI — install from source if needed:
+#   pip install git+https://github.com/jeremyephron/simplegmail.git
+# For demo mode (GMAIL_DEMO_MODE=true in .env) simplegmail is NOT required.
 google-auth-oauthlib>=1.2.0
 google-api-python-client>=2.120.0
 requests>=2.31.0
 
-# Utilities
+# ── Utilities ─────────────────────────────────────────────────────────────────
+numpy>=1.26.0
 python-dateutil>=2.8.0
 pytz>=2024.1
