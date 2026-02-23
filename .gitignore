@@ -1,4 +1,5 @@
 .env
+.Rhistory
 .env.example
 credentials.json
 data/ledger.csv
