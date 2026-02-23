@@ -3,7 +3,7 @@ import numpy as np
 import pytesseract
 import pdfplumber
 from PIL import Image
-import anthropic
+from openai import OpenAI
 import json
 import io
 from pathlib import Path
@@ -81,9 +81,9 @@ def extract_text_from_pdf(file_bytes: bytes) -> str:
         return full_text
 
 
-def parse_with_claude(raw_text: str, client: anthropic.Anthropic) -> dict:
+def parse_with_claude(raw_text: str, client: OpenAI) -> dict:
     """
-    Send OCR text to Claude claude-haiku-4-5 for structured extraction.
+    Send OCR text to OpenAI GPT for structured extraction.
     Temperature=0, max_tokens=500.
     Returns parsed dict or {"parse_error": True, "raw": response_text} on failure.
     """
@@ -108,15 +108,17 @@ def parse_with_claude(raw_text: str, client: anthropic.Anthropic) -> dict:
 Texto:
 {raw_text}"""
 
-    response = client.messages.create(
-        model="claude-haiku-4-5-20251001",
+    response = client.chat.completions.create(
+        model="gpt-4o-mini",
         max_tokens=500,
         temperature=0,
-        system=system_prompt,
-        messages=[{"role": "user", "content": user_prompt}],
+        messages=[
+            {"role": "system", "content": system_prompt},
+            {"role": "user", "content": user_prompt},
+        ],
     )
 
-    response_text = response.content[0].text
+    response_text = response.choices[0].message.content
 
     try:
         parsed = json.loads(response_text)
@@ -130,7 +132,7 @@ def process_document(
     file_type: str,
     user_profile: dict,
     tax_rules: dict,
-    claude_client: anthropic.Anthropic,
+    claude_client: OpenAI,
 ) -> dict:
     """
     Master function — orchestrates full extraction + classification pipeline.

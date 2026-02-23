@@ -1,4 +1,5 @@
 .env
+.env.example
 credentials.json
 data/ledger.csv
 data/user_profile.json

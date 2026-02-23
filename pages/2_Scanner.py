@@ -17,14 +17,14 @@ def cached_tax_rules():
 
 @st.cache_resource
 def get_claude_client():
-    """Create a single Claude client per session."""
-    import anthropic
+    """Create a single OpenAI client per session."""
+    from openai import OpenAI
     import os
 
-    api_key = os.getenv("ANTHROPIC_API_KEY", "")
+    api_key = os.getenv("OPENAI_API_KEY", "")
     if not api_key:
         return None
-    return anthropic.Anthropic(api_key=api_key)
+    return OpenAI(api_key=api_key)
 
 
 def build_ledger_entry(result: dict, origen: str, tipo: str) -> dict:

@@ -9,14 +9,14 @@ from shared.sidebar import render_sidebar
 
 @st.cache_resource
 def get_claude_client():
-    """Create a single Claude client per session."""
-    import anthropic
+    """Create a single OpenAI client per session."""
+    from openai import OpenAI
     import os
 
-    api_key = os.getenv("ANTHROPIC_API_KEY", "")
+    api_key = os.getenv("OPENAI_API_KEY", "")
     if not api_key:
         return None
-    return anthropic.Anthropic(api_key=api_key)
+    return OpenAI(api_key=api_key)
 
 
 def build_system_prompt(profile: dict, summary: dict) -> str:
@@ -89,18 +89,20 @@ if prompt:
     with st.chat_message("assistant"):
         with st.spinner(t("chatbot.spinner")):
             if not client:
-                reply = "ANTHROPIC_API_KEY no configurada."
+                reply = "OPENAI_API_KEY no configurada."
             else:
-                response = client.messages.create(
-                    model="claude-sonnet-4-6",
-                    system=system_prompt,
+                response = client.chat.completions.create(
+                    model="gpt-4o",
                     messages=[
-                        {"role": m["role"], "content": m["content"]}
-                        for m in st.session_state["messages"]
+                        {"role": "system", "content": system_prompt},
+                        *[
+                            {"role": m["role"], "content": m["content"]}
+                            for m in st.session_state["messages"]
+                        ],
                     ],
                     max_tokens=1000,
                 )
-                reply = response.content[0].text
+                reply = response.choices[0].message.content
 
             st.markdown(reply)
             st.session_state["messages"].append({"role": "assistant", "content": reply})

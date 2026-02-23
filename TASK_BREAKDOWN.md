@@ -13,7 +13,7 @@
 ## Phase 0 — Project Scaffolding (Do First)
 
 ### Task 0.1 — Create directory structure and config files
-- [ ] **Status:** Doneee
+- [x] **Status:** Done
 
 **What to build:**
 - All directories: `pages/`, `engine/`, `i18n/`, `data/`, `.streamlit/`
@@ -41,7 +41,7 @@ cat .streamlit/config.toml    # Should show primaryColor = "#E94560"
 ---
 
 ### Task 0.2 — Create `data/tax_rules_2025.json`
-- [ ] **Status:** doneee
+- [x] **Status:** Done
 **What to build:** The static tax rules file from CLAUDE.md Section 3.3.
 
 **Claude Code Prompt:**
@@ -59,7 +59,7 @@ python3 -c "import json; d=json.load(open('data/tax_rules_2025.json')); print(li
 ---
 
 ### Task 0.3 — Create `i18n/es.json` and `i18n/en.json`
-- [ ] **Status:** doneee
+- [x] **Status:** Done
 
 **What to build:** Both JSON string files from CLAUDE.md Section 12.7 (es.json) and Section 12.8 (en.json). Include the `tax_verdicts` section from Section 12.6.
 
@@ -88,7 +88,7 @@ print('Match:', sorted(es.keys()) == sorted(en.keys()))
 ## Phase 1 — Engine Layer (Pure Python, No Streamlit)
 
 ### Task 1.1 — Build `i18n/__init__.py`
-- [ ] **Status:** Not started
+- [x] **Status:** Done
 
 **What to build:** The `t()`, `get_lang()`, `set_lang()`, `tax_term()`, `tax_header()` functions from CLAUDE.md Section 12.2 and 12.5.
 
@@ -118,7 +118,7 @@ print('i18n module imported successfully')
 ---
 
 ### Task 1.2 — Build `engine/tax_rules.py`
-- [ ] **Status:** Not started
+- [x] **Status:** Done
 
 **What to build:** All functions from CLAUDE.md Section 5.1. This is the most critical engine module — must be 100% deterministic.
 
@@ -182,7 +182,7 @@ print('All tax_rules tests passed.')
 ---
 
 ### Task 1.3 — Build `engine/finance_engine.py`
-- [ ] **Status:** Not started
+- [x] **Status:** Done
 
 **What to build:** All functions from CLAUDE.md Section 5.3.
 
@@ -248,7 +248,7 @@ print('All finance_engine tests passed.')
 ---
 
 ### Task 1.4 — Build `engine/invoice_parser.py`
-- [ ] **Status:** Not started
+- [x] **Status:** Done
 
 **What to build:** All functions from CLAUDE.md Section 5.2. This requires the Anthropic API key to be set.
 
@@ -306,7 +306,7 @@ print('invoice_parser tests passed.')
 ---
 
 ### Task 1.5 — Build `engine/gmail_watcher.py` (demo mode only)
-- [ ] **Status:** Not started
+- [x] **Status:** Done
 
 **Claude Code Prompt:**
 ```
@@ -326,7 +326,7 @@ No Gmail API call made in demo mode.
 ---
 
 ### Task 1.6 — Build `engine/calendly_client.py` (demo mode only)
-- [ ] **Status:** Not started
+- [x] **Status:** Done
 
 **Claude Code Prompt:**
 ```
@@ -345,7 +345,7 @@ When CALENDLY_DEMO_MODE=true, get_scheduled_events() returns get_mock_events().
 ## Phase 2 — i18n Infrastructure
 
 ### Task 2.1 — Wire `i18n/__init__.py` with Streamlit session state
-- [ ] **Status:** Not started
+- [x] **Status:** Done
 
 **Note:** Task 1.1 builds the pure Python i18n module. This task adds the Streamlit session state wiring and the `render_lang_switcher()` function.
 
@@ -365,7 +365,7 @@ All other i18n functions remain pure Python.
 ## Phase 3 — Streamlit App Shell
 
 ### Task 3.1 — Build `app.py`
-- [ ] **Status:** Not started
+- [x] **Status:** Done
 
 **Claude Code Prompt:**
 ```
@@ -382,7 +382,7 @@ Requirements:
 ---
 
 ### Task 3.2 — Build shared `render_sidebar()` function
-- [ ] **Status:** Not started
+- [x] **Status:** Done
 
 **Claude Code Prompt:**
 ```
@@ -405,7 +405,7 @@ This function will be called at the top of every page file.
 ## Phase 4 — Streamlit Pages
 
 ### Task 4.1 — Build `pages/0_Onboarding.py`
-- [ ] **Status:** Not started
+- [x] **Status:** Done
 
 **Claude Code Prompt:**
 ```
@@ -424,7 +424,7 @@ Requirements:
 ---
 
 ### Task 4.2 — Build `pages/1_Dashboard.py`
-- [ ] **Status:** Not started
+- [x] **Status:** Done
 
 **Claude Code Prompt:**
 ```
@@ -442,7 +442,7 @@ Requirements:
 ---
 
 ### Task 4.3 — Build `pages/2_Scanner.py` (Core Feature)
-- [ ] **Status:** Not started
+- [x] **Status:** Done
 
 **This is the most complex page. Build it last among the pages.**
 
@@ -470,7 +470,7 @@ Requirements:
 ---
 
 ### Task 4.4 — Build `pages/4_FPA.py`
-- [ ] **Status:** Not started
+- [x] **Status:** Done
 
 **Claude Code Prompt:**
 ```
@@ -488,7 +488,7 @@ Requirements:
 ---
 
 ### Task 4.5 — Build `pages/5_Chatbot.py`
-- [ ] **Status:** Not started
+- [x] **Status:** Done
 
 **Claude Code Prompt:**
 ```
@@ -512,7 +512,7 @@ Requirements:
 ---
 
 ### Task 4.6 — Build `pages/3_AR_Agenda.py`
-- [ ] **Status:** Not started
+- [x] **Status:** Done
 
 **Claude Code Prompt:**
 ```

@@ -25,13 +25,13 @@ def cached_ledger(cache_key: int):
 
 @st.cache_resource
 def get_claude_client():
-    """Create a single Claude client per session (for Gmail invoice parsing)."""
-    import anthropic
+    """Create a single OpenAI client per session (for Gmail invoice parsing)."""
+    from openai import OpenAI
 
-    api_key = os.getenv("ANTHROPIC_API_KEY", "")
+    api_key = os.getenv("OPENAI_API_KEY", "")
     if not api_key:
         return None
-    return anthropic.Anthropic(api_key=api_key)
+    return OpenAI(api_key=api_key)
 
 
 def should_poll_gmail(last_check: str | None) -> bool:
