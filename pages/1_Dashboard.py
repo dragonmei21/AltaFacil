@@ -147,10 +147,12 @@ fig.update_layout(
     barmode="group",
     paper_bgcolor="rgba(0,0,0,0)",
     plot_bgcolor="rgba(0,0,0,0)",
-    font_color="#EDF2F4",
+    font_color="#1A3D30",
     legend=dict(orientation="h", yanchor="bottom", y=1.02),
     height=350,
     title=t("dashboard.chart_title"),
+    xaxis=dict(gridcolor="rgba(15,168,118,0.1)", linecolor="rgba(15,168,118,0.2)"),
+    yaxis=dict(gridcolor="rgba(15,168,118,0.1)", linecolor="rgba(15,168,118,0.2)"),
 )
 st.plotly_chart(fig, use_container_width=True)
 
@@ -162,10 +164,10 @@ recent = df.tail(10).sort_values("fecha", ascending=False)
 def color_row(row):
     """Apply row color based on type/deductibility."""
     if row["tipo"] == "ingreso":
-        return ["background-color: rgba(0,217,165,0.1)"] * len(row)
+        return ["background-color: rgba(15,168,118,0.12)"] * len(row)
     if row["deducible"]:
         return ["background-color: rgba(233,69,96,0.1)"] * len(row)
-    return ["background-color: rgba(255,201,60,0.1)"] * len(row)
+    return ["background-color: rgba(255,201,60,0.15)"] * len(row)
 
 
 styled = recent[

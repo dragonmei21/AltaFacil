@@ -6,6 +6,7 @@ python-dotenv>=1.0.0
 
 # ── AI & Document Intelligence ────────────────────────────────────────────────
 openai>=1.30.0
+chromadb>=0.4.22
 pillow>=10.0.0
 pytesseract>=0.3.10        # also requires: brew install tesseract tesseract-lang
 opencv-python>=4.9.0.80

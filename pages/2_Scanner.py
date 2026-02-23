@@ -3,6 +3,7 @@ from datetime import date
 import streamlit as st
 
 from engine.finance_engine import load_ledger, save_to_ledger
+from engine.rag_retriever import index_entry
 from engine.invoice_parser import process_document
 from engine.tax_rules import load_tax_rules, classify_deductibility
 from i18n import t
@@ -362,7 +363,8 @@ if st.session_state.get("processed_document"):
             origen=result.get("origen", "scanner"),
             tipo=result.get("tipo", "gasto"),
         )
-        save_to_ledger(entry)
+        save_to_ledger(entry)   # mutates entry — adds entry["id"]
+        index_entry(entry)      # upsert into vector store (no-op if RAG unavailable)
         st.cache_data.clear()
         st.balloons()
         st.success(

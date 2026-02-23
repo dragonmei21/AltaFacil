@@ -10,7 +10,7 @@ st.set_page_config(
     page_title="Alta Fácil Pro",
     page_icon="🚀",
     layout="wide",
-    initial_sidebar_state="expanded",
+    initial_sidebar_state="auto",  # collapsed on mobile, expanded on desktop
 )
 
 
