@@ -1,12 +1,23 @@
-import cv2
-import numpy as np
-import pytesseract
-import pdfplumber
-from PIL import Image
-from openai import OpenAI
 import json
 import io
 from pathlib import Path
+
+import numpy as np
+import pdfplumber
+from PIL import Image
+from openai import OpenAI
+
+try:
+    import cv2
+    _CV2_AVAILABLE = True
+except ImportError:
+    _CV2_AVAILABLE = False
+
+try:
+    import pytesseract
+    _TESSERACT_AVAILABLE = True
+except ImportError:
+    _TESSERACT_AVAILABLE = False
 
 from engine.tax_rules import classify_iva, classify_deductibility
 
@@ -18,6 +29,8 @@ def preprocess_image(img: np.ndarray) -> np.ndarray:
     2. Denoise (h=10, templateWindowSize=7, searchWindowSize=21)
     3. Otsu threshold
     """
+    if not _CV2_AVAILABLE:
+        raise RuntimeError("opencv-python-headless is not installed")
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     denoised = cv2.fastNlMeansDenoising(gray, h=10, templateWindowSize=7, searchWindowSize=21)
     _, thresholded = cv2.threshold(denoised, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
@@ -28,12 +41,13 @@ def extract_text_from_image(file_bytes: bytes) -> str:
     """
     Run OCR on image bytes.
     """
+    if not _CV2_AVAILABLE or not _TESSERACT_AVAILABLE:
+        raise RuntimeError("OCR libraries (opencv, pytesseract) are not available on this server")
     pil_img = Image.open(io.BytesIO(file_bytes))
     img_array = np.array(pil_img)
 
     # Convert RGBA to BGR if needed
     if len(img_array.shape) == 2:
-        # Already grayscale, convert to BGR for preprocess_image
         img_array = cv2.cvtColor(img_array, cv2.COLOR_GRAY2BGR)
     elif img_array.shape[2] == 4:
         img_array = cv2.cvtColor(img_array, cv2.COLOR_RGBA2BGR)

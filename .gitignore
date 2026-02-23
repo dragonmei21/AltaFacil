@@ -2,8 +2,6 @@
 .Rhistory
 .env.example
 credentials.json
-data/ledger.csv
-data/user_profile.json
 data/chroma/
 __pycache__
 .venv

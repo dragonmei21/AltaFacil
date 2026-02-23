@@ -1,0 +1,15 @@
+{
+  "nombre": "María García",
+  "actividad": "Consultoría de marketing digital",
+  "iae_code": "702",
+  "iva_regime": "general",
+  "irpf_retencion_pct": 15,
+  "work_location": "casa",
+  "home_office_pct": 30,
+  "ss_bracket_monthly": 291,
+  "tarifa_plana": true,
+  "tarifa_plana_end_date": "2024-12-31",
+  "alta_date": "2024-01-01",
+  "autonomia": "peninsular",
+  "onboarding_complete": true
+}
