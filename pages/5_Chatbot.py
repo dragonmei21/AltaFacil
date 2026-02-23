@@ -84,48 +84,19 @@ system_prompt = build_system_prompt(profile, summary)
 # Initialise vector store once per session (non-blocking — fails silently).
 rag_available = init_rag()
 
-# Suggestion buttons when chat is empty.
-if not st.session_state.get("messages"):
-    st.caption(t("chatbot.suggestions_label"))
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        if st.button(t("chatbot.suggestion_1"), key="sugg_0"):
-            st.session_state.setdefault("messages", []).append(
-                {"role": "user", "content": t("chatbot.suggestion_1")}
-            )
-    with col2:
-        if st.button(t("chatbot.suggestion_2"), key="sugg_1"):
-            st.session_state.setdefault("messages", []).append(
-                {"role": "user", "content": t("chatbot.suggestion_2")}
-            )
-    with col3:
-        if st.button(t("chatbot.suggestion_3"), key="sugg_2"):
-            st.session_state.setdefault("messages", []).append(
-                {"role": "user", "content": t("chatbot.suggestion_3")}
-            )
-
-# Render chat history.
-for msg in st.session_state.get("messages", []):
-    with st.chat_message(msg["role"]):
-        st.markdown(msg["content"])
-
-# Input box for new user message.
-prompt = st.chat_input(t("chatbot.placeholder"))
-if prompt:
-    st.session_state.setdefault("messages", []).append({"role": "user", "content": prompt})
+# Helper to handle user prompts (from input or suggestions).
+def handle_user_prompt(user_text: str) -> None:
+    st.session_state.setdefault("messages", []).append({"role": "user", "content": user_text})
 
     with st.chat_message("user"):
-        st.markdown(prompt)
+        st.markdown(user_text)
 
     with st.chat_message("assistant"):
         with st.spinner(t("chatbot.spinner")):
             if not client:
                 reply = t("chatbot.error_no_api_key")
             else:
-                # Retrieve semantically relevant ledger entries + tax rules for
-                # this specific query and inject them into the system prompt.
-                # Falls back to empty string if ChromaDB is unavailable.
-                retrieved = retrieve_context(prompt) if rag_available else ""
+                retrieved = retrieve_context(user_text) if rag_available else ""
                 active_system_prompt = (
                     system_prompt + f"\n\n{retrieved}" if retrieved else system_prompt
                 )
@@ -146,3 +117,27 @@ if prompt:
 
             st.markdown(reply)
             st.session_state.setdefault("messages", []).append({"role": "assistant", "content": reply})
+
+# Suggestion buttons when chat is empty.
+if not st.session_state.get("messages"):
+    st.caption(t("chatbot.suggestions_label"))
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        if st.button(t("chatbot.suggestion_1"), key="sugg_0"):
+            handle_user_prompt(t("chatbot.suggestion_1"))
+    with col2:
+        if st.button(t("chatbot.suggestion_2"), key="sugg_1"):
+            handle_user_prompt(t("chatbot.suggestion_2"))
+    with col3:
+        if st.button(t("chatbot.suggestion_3"), key="sugg_2"):
+            handle_user_prompt(t("chatbot.suggestion_3"))
+
+# Render chat history.
+for msg in st.session_state.get("messages", []):
+    with st.chat_message(msg["role"]):
+        st.markdown(msg["content"])
+
+# Input box for new user message.
+prompt = st.chat_input(t("chatbot.placeholder"))
+if prompt:
+    handle_user_prompt(prompt)
