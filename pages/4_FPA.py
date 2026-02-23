@@ -57,16 +57,24 @@ profile = st.session_state.get("user_profile", {})
 st.title(t("fpa.title"))
 st.caption(t("fpa.subtitle"))
 
-# Quarter selector in sidebar.
-year = datetime.now().year
-quarters = _quarter_options(year)
+df = load_ledger()
+current_year = datetime.now().year
+years_from_data = sorted(
+    {
+        int(q.split("-Q")[0])
+        for q in df.get("trimestre", [])
+        if isinstance(q, str) and "-Q" in q
+    }
+)
+years = sorted(set(years_from_data + [current_year]))
+quarters = [q for y in years for q in _quarter_options(y)] or _quarter_options(current_year)
+default_index = _current_quarter_index(quarters)
 selected_quarter = st.sidebar.selectbox(
     t("fpa.quarter_selector"),
     options=quarters,
-    index=_current_quarter_index(quarters),
+    index=default_index,
 )
 
-df = load_ledger()
 summary = get_quarterly_summary(df, selected_quarter)
 render_sidebar(profile, summary)
 

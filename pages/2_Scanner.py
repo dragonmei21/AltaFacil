@@ -29,6 +29,10 @@ def get_claude_client():
 
 def build_ledger_entry(result: dict, origen: str, tipo: str) -> dict:
     """Map a processed result into ledger schema fields."""
+    base = float(result.get("base_imponible", 0.0))
+    tipo_iva = int(result.get("tipo_iva", 21))
+    cuota_iva = round(base * tipo_iva / 100, 2)
+    total = round(base + cuota_iva, 2)
     return {
         "fecha": result.get("fecha", ""),
         "tipo": tipo,
@@ -36,10 +40,10 @@ def build_ledger_entry(result: dict, origen: str, tipo: str) -> dict:
         "nif": result.get("nif_proveedor") or "",
         "concepto": result.get("concepto", ""),
         "numero_factura": result.get("numero_factura") or "",
-        "base_imponible": float(result.get("base_imponible", 0.0)),
-        "tipo_iva": int(result.get("tipo_iva", 21)),
-        "cuota_iva": float(result.get("cuota_iva", 0.0)),
-        "total": float(result.get("total", 0.0)),
+        "base_imponible": base,
+        "tipo_iva": tipo_iva,
+        "cuota_iva": cuota_iva,
+        "total": total,
         "deducible": bool(result.get("deducible", False)),
         "porcentaje_deduccion": int(result.get("porcentaje_deduccion", 0)),
         "cuota_iva_deducible": float(result.get("cuota_iva_deducible", 0.0)),
@@ -225,7 +229,7 @@ if file_ready and st.button(t("scanner.btn_analyze"), type="primary", use_contai
         st.caption(t("scanner.error_ocr_hint"))
 
 if st.session_state.get("processed_document"):
-    result = st.session_state["processed_document"]
+    result = st.session_state.get("processed_document")
 
     # --- Results area (3-column layout) ---
     st.divider()

@@ -9,16 +9,24 @@ def get_mock_invoices() -> list[dict]:
     """Return 3 hardcoded realistic Spanish invoice dicts for demo purposes."""
     today = date.today().isoformat()
 
+    def _recalc(invoice: dict) -> dict:
+        base = float(invoice.get("base_imponible", 0.0))
+        tipo_iva = int(invoice.get("tipo_iva", 0))
+        cuota_iva = round(base * tipo_iva / 100, 2)
+        invoice["cuota_iva"] = cuota_iva
+        invoice["total"] = round(base + cuota_iva, 2)
+        pct = int(invoice.get("porcentaje_deduccion", 0))
+        invoice["cuota_iva_deducible"] = round(cuota_iva * pct / 100, 2)
+        return invoice
+
     return [
-        {
+        _recalc({
             "proveedor": "Amazon Web Services",
             "nif_proveedor": "W0184081H",
             "fecha": today,
             "numero_factura": "AWS-2025-00142",
             "base_imponible": 89.99,
             "tipo_iva": 21,
-            "cuota_iva": 18.90,
-            "total": 108.89,
             "concepto": "Servicios de hosting cloud EC2",
             "tipo_documento": "factura",
             "iva_label": "Tipo general",
@@ -27,7 +35,6 @@ def get_mock_invoices() -> list[dict]:
             "exempt": False,
             "deducible": True,
             "porcentaje_deduccion": 100,
-            "cuota_iva_deducible": 18.90,
             "deductibility_justification": "100% deducible — gasto profesional (hosting)",
             "deductibility_article": "Art. 28-30 Ley 35/2006 IRPF",
             "extraction_method": "mock",
@@ -35,16 +42,14 @@ def get_mock_invoices() -> list[dict]:
             "origen": "gmail",
             "tipo": "gasto",
             "estado": "pendiente",
-        },
-        {
+        }),
+        _recalc({
             "proveedor": "Renfe",
             "nif_proveedor": "A86868189",
             "fecha": today,
             "numero_factura": "RNF-2025-87431",
             "base_imponible": 45.00,
             "tipo_iva": 10,
-            "cuota_iva": 4.50,
-            "total": 49.50,
             "concepto": "Billete AVE Madrid-Barcelona viaje cliente",
             "tipo_documento": "ticket",
             "iva_label": "Tipo reducido",
@@ -53,7 +58,6 @@ def get_mock_invoices() -> list[dict]:
             "exempt": False,
             "deducible": True,
             "porcentaje_deduccion": 100,
-            "cuota_iva_deducible": 4.50,
             "deductibility_justification": "100% deducible — transporte profesional",
             "deductibility_article": "Art. 28-30 Ley 35/2006 IRPF",
             "extraction_method": "mock",
@@ -61,16 +65,14 @@ def get_mock_invoices() -> list[dict]:
             "origen": "gmail",
             "tipo": "gasto",
             "estado": "pendiente",
-        },
-        {
+        }),
+        _recalc({
             "proveedor": "Carrefour",
             "nif_proveedor": "A28425270",
             "fecha": today,
             "numero_factura": None,
             "base_imponible": 67.30,
             "tipo_iva": 21,
-            "cuota_iva": 14.13,
-            "total": 81.43,
             "concepto": "Compra supermercado alimentación personal",
             "tipo_documento": "ticket",
             "iva_label": "Tipo general",
@@ -79,7 +81,6 @@ def get_mock_invoices() -> list[dict]:
             "exempt": False,
             "deducible": False,
             "porcentaje_deduccion": 0,
-            "cuota_iva_deducible": 0.0,
             "deductibility_justification": "No deducible — gasto personal (supermercado)",
             "deductibility_article": "Art. 28 Ley 35/2006 IRPF — no deducible",
             "extraction_method": "mock",
@@ -87,7 +88,7 @@ def get_mock_invoices() -> list[dict]:
             "origen": "gmail",
             "tipo": "gasto",
             "estado": "pendiente",
-        },
+        }),
     ]
 
 

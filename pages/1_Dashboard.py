@@ -59,7 +59,30 @@ profile = st.session_state.get("user_profile", {})
 ledger_key = st.session_state.get("ledger_cache_key", 0)
 df = cached_ledger(ledger_key)
 
-quarter = get_current_quarter()
+# Quarter selector in sidebar (includes years present in ledger + current year).
+current_year = datetime.now().year
+years_from_data = sorted(
+    {
+        int(q.split("-Q")[0])
+        for q in df.get("trimestre", [])
+        if isinstance(q, str) and "-Q" in q
+    }
+)
+years = sorted(set(years_from_data + [current_year]))
+quarters = [f"{y}-Q{q}" for y in years for q in range(1, 5)] or [
+    get_current_quarter()
+]
+default_index = (
+    quarters.index(get_current_quarter())
+    if get_current_quarter() in quarters
+    else 0
+)
+quarter = st.sidebar.selectbox(
+    t("fpa.quarter_selector"),
+    options=quarters,
+    index=default_index,
+)
+
 summary = get_quarterly_summary(df, quarter)
 
 render_sidebar(profile, summary)
@@ -87,7 +110,7 @@ with col3:
     st.metric(
         label=t("dashboard.kpi_iva_label"),
         value=f"€{max(0, summary['resultado_303']):,.0f}",
-        delta="Modelo 303",
+        delta=t("tax_terms.modelo_303"),
         delta_color="off",
     )
 with col4:
@@ -99,7 +122,8 @@ with col4:
     )
 
 # Monthly cashflow chart
-monthly = get_monthly_breakdown(df, datetime.now().year)
+selected_year = int(quarter.split("-")[0])
+monthly = get_monthly_breakdown(df, selected_year)
 fig = go.Figure()
 fig.add_bar(
     name=t("dashboard.chart_ingresos"),

@@ -153,6 +153,7 @@
     "disclaimer": "The AI Advisor guides you based on your real data. It does not replace a professional accountant for official filings.",
     "placeholder": "Ask your tax advisor...",
     "spinner": "Thinking...",
+    "error_no_api_key": "OPENAI_API_KEY not configured.",
     "suggestions_label": "Try asking:",
     "suggestion_1": "How much VAT do I owe this quarter?",
     "suggestion_2": "Can I deduct my new laptop?",

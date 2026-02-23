@@ -153,6 +153,7 @@
     "disclaimer": "El Gestor te orienta basándose en tus datos reales. No reemplaza a un gestor para declaraciones oficiales.",
     "placeholder": "Pregunta a El Gestor...",
     "spinner": "El Gestor está pensando...",
+    "error_no_api_key": "OPENAI_API_KEY no configurada.",
     "suggestions_label": "Prueba a preguntar:",
     "suggestion_1": "¿Cuánto debo para el 303 este trimestre?",
     "suggestion_2": "¿Puedo deducir mi portátil nuevo?",

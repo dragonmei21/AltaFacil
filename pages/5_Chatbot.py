@@ -65,13 +65,19 @@ if not st.session_state.get("messages"):
     col1, col2, col3 = st.columns(3)
     with col1:
         if st.button(t("chatbot.suggestion_1"), key="sugg_0"):
-            st.session_state["messages"].append({"role": "user", "content": t("chatbot.suggestion_1")})
+            st.session_state.setdefault("messages", []).append(
+                {"role": "user", "content": t("chatbot.suggestion_1")}
+            )
     with col2:
         if st.button(t("chatbot.suggestion_2"), key="sugg_1"):
-            st.session_state["messages"].append({"role": "user", "content": t("chatbot.suggestion_2")})
+            st.session_state.setdefault("messages", []).append(
+                {"role": "user", "content": t("chatbot.suggestion_2")}
+            )
     with col3:
         if st.button(t("chatbot.suggestion_3"), key="sugg_2"):
-            st.session_state["messages"].append({"role": "user", "content": t("chatbot.suggestion_3")})
+            st.session_state.setdefault("messages", []).append(
+                {"role": "user", "content": t("chatbot.suggestion_3")}
+            )
 
 # Render chat history.
 for msg in st.session_state.get("messages", []):
@@ -81,7 +87,7 @@ for msg in st.session_state.get("messages", []):
 # Input box for new user message.
 prompt = st.chat_input(t("chatbot.placeholder"))
 if prompt:
-    st.session_state["messages"].append({"role": "user", "content": prompt})
+    st.session_state.setdefault("messages", []).append({"role": "user", "content": prompt})
 
     with st.chat_message("user"):
         st.markdown(prompt)
@@ -89,15 +95,16 @@ if prompt:
     with st.chat_message("assistant"):
         with st.spinner(t("chatbot.spinner")):
             if not client:
-                reply = "OPENAI_API_KEY no configurada."
+                reply = t("chatbot.error_no_api_key")
             else:
+                messages = st.session_state.get("messages", [])
                 response = client.chat.completions.create(
                     model="gpt-4o",
                     messages=[
                         {"role": "system", "content": system_prompt},
                         *[
                             {"role": m["role"], "content": m["content"]}
-                            for m in st.session_state["messages"]
+                            for m in messages
                         ],
                     ],
                     max_tokens=1000,
@@ -105,4 +112,4 @@ if prompt:
                 reply = response.choices[0].message.content
 
             st.markdown(reply)
-            st.session_state["messages"].append({"role": "assistant", "content": reply})
+            st.session_state.setdefault("messages", []).append({"role": "assistant", "content": reply})
